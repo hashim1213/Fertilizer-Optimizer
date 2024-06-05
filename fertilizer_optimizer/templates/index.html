@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertilizer Optimization</title>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Fertilizer Optimization for Canola</h1>
+        <form method="POST">
+            <label for="previous_yield">Previous Yield (bushels/acre):</label>
+            <input type="number" step="any" id="previous_yield" name="previous_yield" required><br>
+
+            <label for="yield_goal">Yield Goal (bushels/acre):</label>
+            <input type="number" step="any" id="yield_goal" name="yield_goal" required><br>
+
+            <label for="OM">Soil Organic Matter (%):</label>
+            <input type="number" step="any" id="OM" name="OM" required><br>
+
+            <label for="use_soil_data">Use Soil Test Data?</label>
+            <select id="use_soil_data" name="use_soil_data" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br>
+
+            <div id="soil-test-data">
+                <h3>Soil Test Data (lb/acre)</h3>
+                <label for="soil_N">Soil N:</label>
+                <input type="number" step="any" id="soil_N" name="soil_N"><br>
+
+                <label for="soil_P2O5">Soil P<sub>2</sub>O<sub>5</sub>:</label>
+                <input type="number" step="any" id="soil_P2O5" name="soil_P2O5"><br>
+
+                <label for="soil_K2O">Soil K<sub>2</sub>O:</label>
+                <input type="number" step="any" id="soil_K2O" name="soil_K2O"><br>
+                <label for="soil_S">Soil S:</label>
+                <input type="number" step="any" id="soil_S" name="soil_S"><br>
+            </div>
+        
+            <button type="submit" class="calculate-btn">Calculate</button>
+        </form>
+        
+        <div class="results">
+            {% if results %}
+            <h2>Optimal Fertilizer Blend</h2>
+            <ul>
+                {% for fertilizer, amount in results.items() %}
+                <li>{{ fertilizer }}: {{ amount }} units</li>
+                {% endfor %}
+            </ul>
+            <h3>Total Cost: {{ total_cost }} USD</h3>
+            
+            {% if rates %}
+            <h2>Application Rates (lb/acre)</h2>
+            <ul>
+                {% for fertilizer, rate in rates.items() %}
+                <li>{{ fertilizer }}: {{ rate }} lb/acre</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            
+            {% if required_fertilizer %}
+            <h2>Fertilizer Requirements (lb/acre)</h2>
+            <ul>
+                {% for nutrient, requirement in required_fertilizer.items() %}
+                <li>{{ nutrient }}: {{ requirement }} lb/acre</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
